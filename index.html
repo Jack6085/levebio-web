@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levebio 鸞成碩綠能</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lcs: {
+                            primary: '#00DC82',
+                            accent: '#0284C7',
+                            text: '#1E293B',
+                            muted: '#64748B',
+                            bg: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC'],
+                        tech: ['Rajdhani']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+            border-color: #00DC82;
+        }
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .modal:not(.hidden) {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        #service-modal .max-h-[90vh] {
+            max-height: 90vh;
+        }
+        .modal-body-scroll {
+            overflow-y: auto;
+            max-height: calc(90vh - 80px);
+        }
+    </style>
+    
+    <script src="js/common.js" defer></script>
+</head>
+
+<body class="antialiased text-slate-800 bg-lcs-bg relative">
+
+    <div id="header-placeholder"></div>
+
+    <section class="py-32 bg-lcs-bg text-center px-4 relative overflow-hidden">
+        <img src="img/hero-bg.png" class="absolute inset-0 w-full h-full object-cover opacity-5 pointer-events-none">
+        
+        <div class="max-w-4xl mx-auto relative z-10">
+            <h1 class="text-4xl lg:text-6xl font-bold mb-6 text-slate-900 leading-tight">
+                數據驅動的 <span class="text-lcs-primary">綠色轉型</span>
+            </h1>
+            <p class="text-lcs-muted text-lg mb-8">
+                整合 IoT 物聯網技術與數據監控系統，為企業提供精準的智慧碳路徑管理。
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="services.html" class="bg-slate-900 text-white px-8 py-3 rounded-lg font-bold hover:bg-slate-800 transition-all shadow-lg">
+                    探索服務
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
+            <img src="img/about.png" class="rounded-2xl shadow-lg w-full object-cover h-64 lg:h-80" alt="About">
+            <div>
+                <span class="text-lcs-primary font-bold text-sm tracking-wider uppercase">About Us</span>
+                <h2 class="text-3xl font-bold mt-2 mb-4">建立具前瞻性的永續策略</h2>
+                <p class="text-lcs-muted leading-relaxed mb-4">
+                    鸞成碩綠能秉持「永續」與「創新」的核心理念，致力於服務客戶、創造環境價值。
+                </p>
+                <a href="about.html" class="text-lcs-primary font-bold hover:underline">
+                    了解更多 &rarr;
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+</body>
+</html>

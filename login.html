@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Levebio Admin Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { primary: '#00DC82', dark: '#0F172A' } } } }</script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-slate-50">
+    <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
+        <h1 class="text-2xl font-bold text-center mb-6 text-slate-800">Levebio Admin</h1>
+        <div class="flex border-b border-slate-200 mb-6">
+            <button onclick="toggleTab('login')" id="tab-login" class="flex-1 pb-2 text-primary border-b-2 border-primary font-bold">登入</button>
+            <button onclick="toggleTab('register')" id="tab-register" class="flex-1 pb-2 text-slate-400 hover:text-slate-600">註冊管理員</button>
+        </div>
+        <form id="form-login" onsubmit="handleAuth(event, 'login')" class="space-y-4">
+            <input type="email" name="email" class="w-full border rounded p-3" placeholder="admin@levebio.com" required>
+            <input type="password" name="password" class="w-full border rounded p-3" placeholder="••••••••" required>
+            <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded">Login</button>
+        </form>
+        <form id="form-register" onsubmit="handleAuth(event, 'register')" class="space-y-4 hidden">
+            <input type="email" name="email" class="w-full border rounded p-3" placeholder="New Email" required>
+            <input type="password" name="password" class="w-full border rounded p-3" placeholder="New Password" required>
+            <button type="submit" class="w-full bg-slate-800 text-white font-bold py-3 rounded">Register</button>
+        </form>
+    </div>
+    <script>
+        function toggleTab(tab) {
+            document.getElementById('form-login').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('form-register').classList.toggle('hidden', tab !== 'register');
+            document.getElementById('tab-login').className = tab === 'login' ? "flex-1 pb-2 text-primary border-b-2 border-primary font-bold" : "flex-1 pb-2 text-slate-400";
+            document.getElementById('tab-register').className = tab === 'register' ? "flex-1 pb-2 text-primary border-b-2 border-primary font-bold" : "flex-1 pb-2 text-slate-400";
+        }
+        async function handleAuth(e, type) {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target).entries());
+            const endpoint = type === 'login' ? '/api/login' : '/api/register';
+            try {
+                const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                const result = await res.json();
+                if (result.success) {
+                    if (type === 'login') { sessionStorage.setItem('token', result.token); window.location.href = 'admin.html'; }
+                    else { alert('註冊成功，請登入'); toggleTab('login'); }
+                } else alert(result.message);
+            } catch (e) { alert('Server Error'); }
+        }
+    </script>
+</body>
+</html>

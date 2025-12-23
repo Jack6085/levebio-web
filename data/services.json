@@ -1,0 +1,69 @@
+[
+  {
+    "id": 1,
+    "title": "CBAM 輔導",
+    "subtitle": "量測計畫 + 制定節能目標",
+    "date": "2025-08-25",
+    "content": "應對碳關稅挑戰，將綠色轉型化為競爭優勢。\r\n(圖片由生成式AI生成)\r\n\r\n根據European Commission (EC) 2023年12月8號發布的指引，協助企業進行產品碳係數排查...",
+    "youtube": "",
+    "image": "uploads/1765638034168-S11.jpg",
+    "icon": "uploads/1765638034168-S1.png",
+    "iconName": "S1.png",
+    "order": 1
+  },
+  {
+    "id": 2,
+    "title": "產品碳足跡(B2B)",
+    "subtitle": "量測計畫 + 制定節能目標",
+    "date": "2025-01-01",
+    "content": "奠定減碳基石，規劃通往淨零的清晰路徑。\r\n\r\n溫室氣體排查標準根據企業組織營運面跟市場結構面會有不同的法規要求...",
+    "youtube": "",
+    "image": "uploads/1765638396796-S21.jpg",
+    "icon": "img/S2.png",
+    "order": 2
+  },
+  {
+    "id": 3,
+    "title": "能源管理輔導",
+    "subtitle": "能源服務工程(能效) + 量測計畫",
+    "date": "2025-01-01",
+    "content": "從管理系統到工程實踐，實現全方位能源效率優化。\r\n(圖片由生成式AI生成)\r\n\r\n能源是溫室氣體主要排放源...",
+    "youtube": "",
+    "image": "uploads/1765638491927-S31.jpg",
+    "icon": "img/S3.png",
+    "order": 3
+  },
+  {
+    "id": 4,
+    "title": "減量專案",
+    "subtitle": "量測計畫",
+    "date": "2025-01-01",
+    "content": "將您的減碳行動轉化為可量化的價值。\r\n\r\n(圖片由生成式AI生成)\r\n\r\n根據氣候變遷因應法...",
+    "youtube": "",
+    "image": "uploads/1765638548419-S41.jpg",
+    "icon": "img/S4.png",
+    "order": 4
+  },
+  {
+    "id": 5,
+    "title": "建築能效輔導",
+    "subtitle": "量測計畫",
+    "date": "2025-01-01",
+    "content": "從評估到改善，全面提升建築物能源效率。\r\n\r\n(圖片由生成式AI生成)\r\n\r\n提供 BERS 輔導，幫助企業和機構...",
+    "youtube": "",
+    "image": "uploads/1765638586651-S51.jpg",
+    "icon": "img/S5.png",
+    "order": 5
+  },
+  {
+    "id": 6,
+    "title": "教育訓練",
+    "subtitle": "企業客製化課程",
+    "date": "2025-01-01",
+    "content": "為您的企業注入永續DNA，讓綠色行動成為企業文化。\r\n提供 溫室氣體盤查、能源管理...",
+    "youtube": "",
+    "image": "uploads/1765638621144-S61.jpg",
+    "icon": "img/S6.png",
+    "order": 6
+  }
+]

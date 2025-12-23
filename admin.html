@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Levebio Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>tailwind.config = { theme: { extend: { colors: { primary: '#00DC82' } } } }</script>
+    <style>
+        .resizable-modal { resize: both; overflow: auto; min-width: 300px; min-height: 200px; max-height: 90vh; }
+        .btn-action { @apply p-2 rounded transition-colors; }
+        .btn-edit { @apply text-blue-500 hover:bg-blue-50; }
+        .btn-delete { @apply text-red-500 hover:bg-red-50; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800">
+    <script>if (!sessionStorage.getItem('token')) window.location.href = 'login.html';</script>
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-white border-r fixed h-full z-20">
+            <div class="p-6 border-b"><span class="font-bold text-lg">Levebio Admin</span></div>
+            <nav class="flex-1 p-4 space-y-1">
+                <button onclick="switchTab('services')" class="w-full text-left p-3 hover:bg-green-50 rounded">專業服務管理</button>
+                <button onclick="switchTab('cases')" class="w-full text-left p-3 hover:bg-green-50 rounded">減碳案例管理</button>
+                <button onclick="switchTab('news')" class="w-full text-left p-3 hover:bg-green-50 rounded">訊息公告管理</button>
+                <button onclick="switchTab('bulletins')" class="w-full text-left p-3 hover:bg-green-50 rounded">佈告欄管理</button>
+                <button onclick="switchTab('messages')" class="w-full text-left p-3 hover:bg-green-50 rounded">客戶諮詢中心</button>
+            </nav>
+            <div class="p-4 border-t"><button onclick="sessionStorage.removeItem('token');location.href='login.html'" class="text-red-500 w-full">登出</button></div>
+        </aside>
+
+        <main class="flex-1 ml-64 p-8 overflow-y-auto">
+            <!-- Services -->
+            <div id="panel-services" class="panel">
+                <div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">專業服務 (Blog Style)</h2><button onclick="openModal('services')" class="bg-primary text-white px-4 py-2 rounded">新增服務</button></div>
+                <div class="bg-white rounded-xl border overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="p-4">排序</th><th class="p-4">名稱</th><th class="p-4">副標</th><th class="p-4">操作</th></tr></thead><tbody id="list-services"></tbody></table></div>
+            </div>
+            <!-- Cases -->
+            <div id="panel-cases" class="panel hidden">
+                <div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">減碳案例管理</h2><button onclick="openModal('cases')" class="bg-primary text-white px-4 py-2 rounded">新增案例</button></div>
+                <div id="list-cases" class="space-y-4"></div>
+            </div>
+            <!-- News -->
+            <div id="panel-news" class="panel hidden">
+                <div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">訊息公告管理</h2><button onclick="openModal('news')" class="bg-blue-500 text-white px-4 py-2 rounded">新增</button></div>
+                <div class="bg-white rounded-xl border overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="p-4">日期</th><th class="p-4">標題</th><th class="p-4">附件</th><th class="p-4">操作</th></tr></thead><tbody id="list-news"></tbody></table></div>
+            </div>
+            <!-- Bulletins -->
+            <div id="panel-bulletins" class="panel hidden">
+                <div class="flex justify-between items-center mb-6"><h2 class="text-2xl font-bold">佈告欄管理</h2><button onclick="openModal('bulletins')" class="bg-orange-500 text-white px-4 py-2 rounded">新增佈告</button></div>
+                <div class="bg-white rounded-xl border overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="p-4">日期</th><th class="p-4">分類</th><th class="p-4">標題</th><th class="p-4">附件</th><th class="p-4">操作</th></tr></thead><tbody id="list-bulletins"></tbody></table></div>
+            </div>
+            <!-- Messages -->
+            <div id="panel-messages" class="panel hidden"><h2 class="text-2xl font-bold mb-6">客戶諮詢管理</h2><div class="bg-white rounded-xl border overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="p-4">日期</th><th class="p-4">聯絡人</th><th class="p-4">主旨</th><th class="p-4">操作</th></tr></thead><tbody id="list-messages"></tbody></table></div></div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-services" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4"><div class="bg-white rounded w-full max-w-3xl p-6 shadow-2xl resizable-modal"><h3 class="text-xl font-bold mb-4">編輯服務</h3><form onsubmit="saveData(event, 'services')" enctype="multipart/form-data"><input type="hidden" name="id" id="svc-id"><div class="grid grid-cols-2 gap-4"><input type="text" id="svc-title" name="title" class="border p-2 w-full mb-2" placeholder="名稱" required><input type="number" name="order" id="svc-order" class="border p-2 w-full mb-2" placeholder="排序"></div><input type="text" name="subtitle" id="svc-subtitle" class="border p-2 w-full mb-2" placeholder="副標"><input type="date" name="date" id="svc-date" class="border p-2 mb-2"><label class="text-xs">封面</label><div id="preview-svc-info" class="text-xs text-blue-500 hidden"></div><input type="file" name="image" id="svc-image" class="w-full mb-2"><input type="file" name="icon" class="w-full mb-2" placeholder="Icon"><input type="url" name="youtube" id="svc-youtube" class="border p-2 w-full mb-2" placeholder="Youtube"><textarea name="content" id="svc-content" rows="6" class="border p-2 w-full resize-y" placeholder="內容"></textarea><button class="bg-primary text-white px-4 py-2 rounded">儲存</button><button type="button" onclick="closeModal('services')" class="px-4">取消</button></form></div></div>
+    
+    <div id="modal-cases" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4"><div class="bg-white rounded w-full max-w-2xl p-6 shadow-2xl resizable-modal"><h3 class="text-xl font-bold mb-4">編輯案例</h3><form onsubmit="saveCase(event)"><input type="hidden" name="id" id="case-id"><div class="border-2 border-dashed p-4 text-center cursor-pointer mb-2" onclick="document.getElementById('c-file').click()"><img id="pre-case" class="h-40 mx-auto hidden object-contain"><div id="pl-case"><p>上傳圖片</p></div><input type="file" name="image" id="c-file" class="hidden" onchange="handleImageUpload(this)"></div><div class="grid grid-cols-2 gap-4"><input type="text" name="title" id="case-title" class="border p-2 w-full mb-2" placeholder="名稱" required><input type="text" name="location" id="case-location" class="border p-2 w-full mb-2" placeholder="地點" required></div><input type="date" name="date" id="case-date" class="border p-2 w-full mb-2" required><textarea name="summary" id="case-summary" rows="4" class="border p-2 w-full resize-y" placeholder="摘要" required></textarea><button class="bg-primary text-white px-4 py-2 rounded">儲存</button><button type="button" onclick="closeModal('cases')" class="px-4">取消</button></form></div></div>
+    
+    <div id="modal-news" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4"><div class="bg-white rounded w-full max-w-xl p-6 shadow-2xl resizable-modal"><h3 class="text-xl font-bold mb-4">編輯公告</h3><form onsubmit="saveData(event, 'news')" enctype="multipart/form-data"><input type="hidden" name="id" id="n-id"><input type="text" name="title" id="n-title" class="border p-2 w-full mb-2" placeholder="標題" required><input type="date" name="date" id="n-date" class="border p-2 w-full mb-2"><label class="text-xs">封面</label><img id="pre-news-img" class="h-20 hidden"><input type="file" name="image" id="news-image" class="w-full mb-2"><label class="text-xs">附件</label><div id="pre-news-file" class="text-xs text-blue-500 hidden"></div><input type="file" name="attachment" class="w-full mb-2"><textarea name="content" id="n-content" rows="6" class="border p-2 w-full resize-y" placeholder="內容"></textarea><button class="bg-blue-500 text-white px-4 py-2 rounded">儲存</button><button type="button" onclick="closeModal('news')" class="px-4">取消</button></form></div></div>
+    
+    <div id="modal-bulletins" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4"><div class="bg-white rounded w-full max-w-xl p-6 shadow-2xl resizable-modal"><h3 class="text-xl font-bold mb-4">編輯佈告</h3><form onsubmit="saveData(event, 'bulletins')" enctype="multipart/form-data"><input type="hidden" name="id" id="b-id"><select name="type" id="b-type" class="border p-2 w-full mb-2"><option value="internal">內部</option><option value="external">外部</option></select><input type="text" name="title" id="b-title" class="border p-2 w-full mb-2" placeholder="標題" required><input type="date" name="date" id="b-date" class="border p-2 w-full mb-2"><input type="file" name="attachment" class="w-full mb-2"><textarea name="content" id="b-content" rows="4" class="border p-2 w-full resize-y" placeholder="描述"></textarea><button class="bg-orange-500 text-white px-4 py-2 rounded">儲存</button><button type="button" onclick="closeModal('bulletins')" class="px-4">取消</button></form></div></div>
+    <div id="modal-messages" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4"><div class="bg-white rounded w-full max-w-2xl p-6 shadow-2xl resizable-modal flex flex-col"><h3 class="text-xl font-bold mb-4 border-b pb-2">諮詢詳情</h3><div id="msg-content-full" class="flex-grow overflow-auto p-4 bg-slate-50 rounded mb-4 whitespace-pre-wrap"></div><button onclick="closeModal('messages')" class="bg-slate-500 text-white px-4 py-2 rounded self-end">關閉</button></div></div>
+
+    <script>
+        // Global Data Cache
+        let DB = { services:[], cases:[], news:[], bulletins:[], messages:[] };
+        let tempCaseImg = "";
+
+        // API
+        async function fetchAPI(url, opts) { const r=await fetch('/api'+url, opts); return r.json(); }
+        function switchTab(t) { document.querySelectorAll('.panel').forEach(p=>p.classList.add('hidden')); document.getElementById('panel-'+t).classList.remove('hidden'); loadData(t); }
+        function resizeImage(f) { return new Promise(r=>{ const reader=new FileReader(); reader.onload=e=>{ const img=new Image(); img.onload=()=>{ const c=document.createElement('canvas'); c.width=800; c.height=img.height*(800/img.width); c.getContext('2d').drawImage(img,0,0,c.width,c.height); c.toBlob(b=>r(b),'image/jpeg',0.8); }; img.src=e.target.result; }; reader.readAsDataURL(f); }); }
+        
+        async function loadData(t) {
+            const data = await fetchAPI('/'+t);
+            DB[t] = data; // Cache data
+            const tbody = document.getElementById('list-'+t);
+            const listDiv = document.getElementById('list-cases'); // Special case for div list
+
+            if(t==='services') {
+                data.sort((a,b)=>(a.order||99)-(b.order||99));
+                tbody.innerHTML = data.map(s => `<tr class="border-b hover:bg-slate-50"><td class="p-4 font-mono text-slate-500">${s.order||'-'}</td><td class="p-4 font-bold">${s.title}</td><td class="p-4 text-xs text-slate-500">${s.subtitle||''}</td><td class="p-4 flex gap-2"><button onclick='edit("${t}", "${s.id}")' class="text-blue-500 hover:text-blue-700 p-2"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="del('${t}', '${s.id}')" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash-can"></i></button></td></tr>`).join('');
+            } else if(t==='cases') {
+                listDiv.innerHTML = data.map(c => `<div class="bg-white p-4 border rounded flex gap-4 items-center"><img src="${c.image}" class="w-20 h-20 object-cover"><div class="flex-1"><h3 class="font-bold">${c.title}</h3></div><div class="flex gap-2"><button onclick="edit('cases', '${c.id}')" class="text-blue-500 hover:text-blue-700 p-2"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="del('cases', '${c.id}')" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash-can"></i></button></div></div>`).join('');
+            } else if(t==='news') {
+                tbody.innerHTML = data.map(n => `<tr class="border-b hover:bg-slate-50"><td class="p-4 text-slate-500">${n.date}</td><td class="p-4 font-bold">${n.title}</td><td class="p-4 text-xs text-blue-500">${n.attachment?'V':'-'}</td><td class="p-4 flex gap-2"><button onclick='edit("${t}", "${n.id}")' class="text-blue-500 hover:text-blue-700 p-2"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="del('${t}', '${n.id}')" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash-can"></i></button></td></tr>`).join('');
+            } else if(t==='bulletins') {
+                tbody.innerHTML = data.map(b => `<tr class="border-b hover:bg-slate-50"><td class="p-4 text-slate-500">${b.date}</td><td class="p-4"><span class="px-2 py-1 rounded text-xs ${b.type==='internal'?'bg-gray-100':'bg-blue-100 text-blue-600'}">${b.type}</span></td><td class="p-4 font-bold">${b.title}</td><td class="p-4 text-xs">${b.attachment?'V':'-'}</td><td class="p-4 flex gap-2"><button onclick='edit("${t}", "${b.id}")' class="text-blue-500 hover:text-blue-700 p-2"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="del('${t}', '${b.id}')" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash-can"></i></button></td></tr>`).join('');
+            } else if(t==='messages') {
+                tbody.innerHTML = data.map(m => `<tr class="border-b hover:bg-slate-50"><td class="p-4">${m.date}</td><td class="p-4">${m.name}</td><td class="p-4">${m.subject}</td><td class="p-4 flex gap-2"><button onclick='viewMsg("${m.id}")' class="text-blue-500 hover:text-blue-700 p-2"><i class="fa-solid fa-eye"></i></button><button onclick="del('messages', '${m.id}')" class="text-red-500 hover:text-red-700 p-2"><i class="fa-solid fa-trash-can"></i></button></td></tr>`).join('');
+            }
+        }
+
+        // Generic Edit - Uses ID to look up from DB
+        function edit(type, id) {
+            const item = DB[type].find(x => String(x.id) === String(id));
+            if(!item) return;
+            openModal(type);
+            
+            // Map common fields to inputs if they exist in the item
+            if(type==='services') {
+                document.getElementById('svc-id').value = item.id;
+                document.getElementById('svc-title').value = item.title || '';
+                document.getElementById('svc-subtitle').value = item.subtitle || '';
+                document.getElementById('svc-order').value = item.order || '';
+                document.getElementById('svc-date').value = item.date || '';
+                document.getElementById('svc-youtube').value = item.youtube || '';
+                document.getElementById('svc-content').value = item.content || '';
+                if(item.image) {
+                    document.getElementById('pre-svc-img').src = item.image;
+                    document.getElementById('pre-svc-img').classList.remove('hidden');
+                }
+            } else if(type==='cases') {
+                document.getElementById('case-id').value = item.id;
+                document.getElementById('case-title').value = item.title || '';
+                document.getElementById('case-location').value = item.location || '';
+                document.getElementById('case-date').value = item.date || '';
+                document.getElementById('case-summary').value = item.summary || '';
+                if(item.image) {
+                    document.getElementById('pre-case').src = item.image;
+                    document.getElementById('pre-case').classList.remove('hidden');
+                    document.getElementById('pl-case').classList.add('hidden');
+                    tempCaseImg = item.image;
+                }
+            } else if(type==='news') {
+                document.getElementById('n-id').value = item.id;
+                document.getElementById('n-title').value = item.title || '';
+                document.getElementById('n-date').value = item.date || '';
+                document.getElementById('n-content').value = item.content || '';
+                if(item.image) {
+                    document.getElementById('pre-news-img').src = item.image;
+                    document.getElementById('pre-news-img').classList.remove('hidden');
+                }
+                if(item.attachmentName) {
+                    document.getElementById('pre-news-file').innerText = "File: " + item.attachmentName;
+                    document.getElementById('pre-news-file').classList.remove('hidden');
+                }
+            } else if(type==='bulletins') {
+                document.getElementById('b-id').value = item.id;
+                document.getElementById('b-type').value = item.type || 'internal';
+                document.getElementById('b-title').value = item.title || '';
+                document.getElementById('b-date').value = item.date || '';
+                document.getElementById('b-content').value = item.content || '';
+                if(item.attachmentName) {
+                    document.getElementById('pre-bull-file').innerText = "File: " + item.attachmentName;
+                    document.getElementById('pre-bull-file').classList.remove('hidden');
+                }
+            }
+        }
+
+        // Generic Save (FormData)
+        async function saveData(e, type) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            
+            // Auto Resize for specific image inputs
+            const imgInput = e.target.querySelector('input[type="file"][name="image"]');
+            if(imgInput && imgInput.files[0]) fd.set('image', await resizeImage(imgInput.files[0]), imgInput.files[0].name);
+
+            // Default date if empty
+            if(!fd.get('date')) fd.set('date', new Date().toISOString().split('T')[0]);
+
+            const id = fd.get('id');
+            await fetchAPI('/'+type + (id ? '/'+id : ''), { method: id ? 'PUT' : 'POST', body: fd });
+            closeModal(type);
+            loadData(type);
+        }
+
+        // Case Save (JSON)
+        async function saveCase(e) {
+            e.preventDefault();
+            const id = document.getElementById('case-id').value;
+            const body = JSON.stringify({
+                title: document.getElementById('case-title').value,
+                location: document.getElementById('case-location').value,
+                date: document.getElementById('case-date').value || new Date().toISOString().split('T')[0],
+                summary: document.getElementById('case-summary').value,
+                image: tempCaseImg
+            });
+            await fetchAPI('/cases'+(id?'/'+id:''), {method:id?'PUT':'POST', headers:{'Content-Type':'application/json'}, body});
+            closeModal('cases');
+            loadData('cases');
+        }
+
+        // Delete
+        async function del(type, id) {
+            if(confirm('確定刪除?')) {
+                await fetchAPI('/'+type+'/'+id, { method: 'DELETE' });
+                loadData(type);
+            }
+        }
+
+        function viewMsg(id) {
+            const m = DB.messages.find(x => String(x.id) === String(id));
+            if(!m) return;
+            // [Fix] Added Service Field
+            document.getElementById('msg-content-full').innerText = `諮詢項目: ${m.service||'-'}\n日期: ${m.date}\n姓名: ${m.name}\n電話: ${m.phone}\nEmail: ${m.email}\n主旨: ${m.subject}\n\n${m.content}`;
+            openModal('messages');
+        }
+
+        // Image Resize
+        function resizeImage(file) {
+            return new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const c = document.createElement('canvas');
+                        c.width = 800; c.height = img.height * (800/img.width);
+                        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+                        c.toBlob(blob => resolve(blob), 'image/jpeg', 0.8);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        function handleImageUpload(input) {
+            const f=input.files[0]; const r=new FileReader();
+            r.onload=e=>{ const i=new Image(); i.onload=()=>{ const c=document.createElement('canvas'); c.width=800; c.height=i.height*(800/i.width); c.getContext('2d').drawImage(i,0,0,c.width,c.height); tempCaseImg=c.toDataURL('image/jpeg',0.8); document.getElementById('pre-case').src=tempCaseImg; document.getElementById('pre-case').classList.remove('hidden'); document.getElementById('pl-case').classList.add('hidden'); }; i.src=e.target.result; }; r.readAsDataURL(f);
+        }
+
+        // UI Helpers
+        function openModal(type) {
+            document.getElementById('modal-'+type).classList.remove('hidden');
+            const form = document.querySelector('#modal-'+type+' form');
+            if(form) form.reset();
+            // Clear Previews
+            document.querySelectorAll('#modal-'+type+' img').forEach(i => { i.src=''; i.classList.add('hidden'); });
+            document.querySelectorAll('#modal-'+type+' .text-xs.text-blue-500').forEach(d => d.classList.add('hidden'));
+            if(type=='cases') { tempCaseImg=""; document.getElementById('pl-case').classList.remove('hidden'); }
+            // Clear hidden ID
+            const idInput = document.querySelector('#modal-'+type+' input[name="id"]');
+            if(idInput) idInput.value = "";
+            const caseIdInput = document.getElementById('case-id'); // Special for case
+            if(type=='cases' && caseIdInput) caseIdInput.value = "";
+        }
+        function closeModal(type) { document.getElementById('modal-'+type).classList.add('hidden'); }
+        function logout() { sessionStorage.removeItem('token'); window.location.href='login.html'; }
+
+        switchTab('services');
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "levebio-project-v24",
+  "version": "24.0.0",
+  "description": "Levebio Official Website V24 Verified",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "multer": "^1.4.5-lts.1"
+  }
+}
