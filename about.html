@@ -1,1 +1,62 @@
-<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Levebio 鸞成碩綠能</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{colors:{lcs:{primary:'#00DC82',accent:'#0284C7',text:'#1E293B',muted:'#64748B',bg:'#F8FAFC'}},fontFamily:{sans:['Noto Sans TC'],tech:['Rajdhani']}}}}</script><style>.glass-card{background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);border:1px solid #e2e8f0;transition:all 0.3s ease}.glass-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px -5px rgba(0,0,0,0.1);border-color:#00DC82}.modal{transition:opacity 0.3s ease,visibility 0.3s ease}.modal.hidden{opacity:0;visibility:hidden;pointer-events:none}.modal:not(.hidden){opacity:1;visibility:visible;pointer-events:auto}#service-modal .max-h-[90vh]{max-height:90vh}.modal-body-scroll{overflow-y:auto;max-height:calc(90vh - 80px)}</style><script src="js/common.js"></script></head><body class="bg-white"><div id="header-placeholder"></div><section class="py-20"><div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12"><img src="img/about.png" class="rounded-2xl shadow-lg w-full"><div class="space-y-4"><h2 class="text-3xl font-bold">永續與創新的綠色推手</h2><div class="text-slate-600 text-justify space-y-4"><p>鸞成碩綠能秉持「永續」與「創新」的核心理念，致力於服務客戶...</p></div></div></div></section><div id="footer-placeholder"></div></body></html>
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levebio 鸞成碩綠能</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { lcs: { primary: '#00DC82', accent: '#0284C7', text: '#1E293B', muted: '#64748B', bg: '#F8FAFC' } }, fontFamily: { sans: ['Noto Sans TC', 'sans-serif'], tech: ['Rajdhani', 'sans-serif'] } }
+            }
+        }
+    </script>
+    <style>
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border: 1px solid #e2e8f0; transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); border-color: #00DC82; }
+        #google_translate_element { margin-left: 10px; }
+        .goog-te-gadget-simple { background-color: transparent !important; border: 1px solid #e2e8f0 !important; border-radius: 20px; padding: 4px 10px !important; }
+        body { padding-top: 80px; }
+        .modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .modal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
+        #service-modal .max-h-[90vh] { max-height: 90vh; }
+        /* Scrollbar fix */
+        .modal-body-scroll { overflow-y: auto; max-height: calc(90vh - 80px); }
+    </style>
+    <script src="js/common.js"></script>
+</head>
+
+<body class="antialiased text-slate-800 bg-white relative">
+    <div id="header-placeholder"></div>
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-start">
+            <div class="sticky top-24">
+                <img src="img/about.png" class="rounded-2xl shadow-xl w-full object-cover h-auto" alt="About Levebio">
+                <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-lg hidden md:block border border-slate-100">
+                    <p class="text-lcs-primary font-bold text-lg">專業認證</p>
+                    <div class="flex gap-2 mt-2">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">ISO 14064</span>
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">ISO 50001</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="text-lcs-primary font-bold text-sm tracking-wider uppercase">About Us</span>
+                <h2 class="text-4xl font-bold mt-2 mb-8 text-slate-900 leading-tight">永續與創新的綠色推手</h2>
+                <div class="text-slate-600 leading-relaxed space-y-6 text-justify text-lg">
+                    <p>鸞成碩綠能秉持「永續」與「創新」的核心理念，致力於服務客戶、創造環境價值、提升人類福祉，並促進經濟發展。公司營運重心聚焦於碳中和目標，專業提供減碳目標規劃與碳減量路徑設計，協助企業在面對全球淨零趨勢下，建立具前瞻性的永續策略，強化企業在永續轉型中的競爭優勢。</p>
+                    <p>我們整合前端能源管理系統與 IoT 物聯網技術，協助企業導入數據監控系統，有效蒐集與管理碳排放數據，奠定智慧化與 AI 減碳的基礎。從建立碳排基準年、設定逐年減碳目標，到深入分析高排放熱區並擬定對應減量方案，打造專屬的低碳營運模式。</p>
+                    <p>同時，依據國際趨勢與淨零宣告，整合法規面、營運面、技術面與科技面，導入智慧碳路徑管理系統，協助企業盤查產品碳足跡、建立基準年、擬定減碳藍圖，全面邁向碳中和與淨零排放。</p>
+                    <p>鸞成碩綠能擁有深厚產業經驗與前瞻技術，提供從策略擬定、系統導入到實際執行的整合型服務，協助企業精準掌握碳排狀況、優化能源效率，有效因應國際綠色法規。未來我們將持續精進技術與服務，致力成為企業綠色轉型的可信賴夥伴，攜手共創智慧、低碳、永續的新時代，實現環境與經濟雙贏的願景。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="footer-placeholder"></div>
+</body>
+</html>

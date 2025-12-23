@@ -1,1 +1,138 @@
-<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Levebio 鸞成碩綠能</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{colors:{lcs:{primary:'#00DC82',accent:'#0284C7',text:'#1E293B',muted:'#64748B',bg:'#F8FAFC'}},fontFamily:{sans:['Noto Sans TC'],tech:['Rajdhani']}}}}</script><style>.glass-card{background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);border:1px solid #e2e8f0;transition:all 0.3s ease}.glass-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px -5px rgba(0,0,0,0.1);border-color:#00DC82}.modal{transition:opacity 0.3s ease,visibility 0.3s ease}.modal.hidden{opacity:0;visibility:hidden;pointer-events:none}.modal:not(.hidden){opacity:1;visibility:visible;pointer-events:auto}#service-modal .max-h-[90vh]{max-height:90vh}.modal-body-scroll{overflow-y:auto;max-height:calc(90vh - 80px)}</style><script src="js/common.js"></script></head><body class="bg-slate-900"><div id="header-placeholder"></div><section class="py-24 bg-slate-900 text-white"><div class="max-w-4xl mx-auto px-4 grid md:grid-cols-2 gap-12"><div><h2 class="text-3xl font-bold mb-4">聯絡我們</h2><div class="space-y-4 text-sm text-slate-300"><div><i class="fa-solid fa-location-dot text-lcs-primary"></i> 114 台北市內湖區瑞光路188巷46號7F</div><div><i class="fa-solid fa-phone text-lcs-primary"></i> +886-2-26761448</div><div><i class="fa-solid fa-envelope text-lcs-primary"></i> services@levebio.com</div></div></div><form onsubmit="submitForm(event)" class="bg-white text-slate-800 p-6 rounded-2xl space-y-4"><div><label class="text-xs font-bold text-slate-500">諮詢項目</label><select id="form-service" class="w-full border rounded p-2 text-sm"><option>一般諮詢</option><option>CBAM</option><option>碳足跡</option></select></div><div class="grid grid-cols-2 gap-4"><input type="text" name="name" placeholder="姓名" class="border rounded p-2 text-sm" required><input type="tel" name="phone" placeholder="電話" class="border rounded p-2 text-sm" required></div><input type="email" name="email" placeholder="Email" class="border rounded p-2 w-full" required><input type="text" name="subject" class="border rounded p-2 text-sm w-full" placeholder="主旨" required><textarea name="content" rows="4" placeholder="內容" class="border rounded p-2 w-full"></textarea><button class="w-full bg-primary text-white py-3 rounded">送出</button></form></div></section><script>async function submitForm(e){e.preventDefault(); const d=Object.fromEntries(new FormData(e.target)); d.service=document.getElementById('form-service').value; await fetch('/api/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}); alert('已送出'); e.target.reset();}</script><div id="footer-placeholder"></div></body></html>
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levebio 鸞成碩綠能</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { lcs: { primary: '#00DC82', accent: '#0284C7', text: '#1E293B', muted: '#64748B', bg: '#F8FAFC' } }, fontFamily: { sans: ['Noto Sans TC', 'sans-serif'], tech: ['Rajdhani', 'sans-serif'] } }
+            }
+        }
+    </script>
+    <style>
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border: 1px solid #e2e8f0; transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); border-color: #00DC82; }
+        #google_translate_element { margin-left: 10px; }
+        .goog-te-gadget-simple { background-color: transparent !important; border: 1px solid #e2e8f0 !important; border-radius: 20px; padding: 4px 10px !important; }
+        body { padding-top: 80px; }
+        .modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .modal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
+        #service-modal .max-h-[90vh] { max-height: 90vh; }
+        /* Scrollbar fix */
+        .modal-body-scroll { overflow-y: auto; max-height: calc(90vh - 80px); }
+    </style>
+    <script src="js/common.js"></script>
+</head>
+
+<body class="antialiased text-slate-800 bg-slate-900 relative">
+    <div id="header-placeholder"></div>
+    <section class="py-24 bg-slate-900 text-white relative">
+        <div class="max-w-4xl mx-auto px-4 grid md:grid-cols-2 gap-16">
+            <!-- Left Info -->
+            <div class="space-y-8">
+                <div>
+                    <span class="text-lcs-primary font-bold tracking-wider text-sm uppercase">Contact Us</span>
+                    <h2 class="text-4xl font-bold mt-2 mb-4">聯絡我們</h2>
+                    <p class="text-slate-400 leading-relaxed">
+                        無論是碳盤查、能源管理或 CBAM 申報，我們都樂意為您提供專業諮詢。請填寫右側表單，專案顧問將儘速與您聯繫。
+                    </p>
+                </div>
+                
+                <div class="space-y-6 pt-4">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-lcs-primary shrink-0">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">公司地址</h4>
+                            <p class="text-slate-400 text-sm mt-1">114 台北市內湖區瑞光路188巷46號7F</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-lcs-primary shrink-0">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">聯絡電話</h4>
+                            <p class="text-slate-400 text-sm mt-1">+886-2-26761448</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-lcs-primary shrink-0">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">電子郵件</h4>
+                            <p class="text-slate-400 text-sm mt-1">services@levebio.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Form -->
+            <div class="bg-white text-slate-800 p-8 rounded-2xl shadow-2xl">
+                <h3 class="text-2xl font-bold mb-6 text-slate-800">填寫需求單</h3>
+                <form onsubmit="submitForm(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">諮詢項目</label>
+                        <select id="form-service" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm font-bold text-slate-700 outline-none focus:border-lcs-primary focus:ring-1 focus:ring-lcs-primary">
+                            <option>一般諮詢</option>
+                            <option>CBAM 輔導</option>
+                            <option>產品碳足跡</option>
+                            <option>能源管理</option>
+                            <option>減量專案</option>
+                            <option>建築能效</option>
+                            <option>教育訓練</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2">姓名 <span class="text-red-500">*</span></label>
+                            <input type="text" name="name" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:border-lcs-primary outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2">電話 <span class="text-red-500">*</span></label>
+                            <input type="tel" name="phone" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:border-lcs-primary outline-none" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">電子郵件 <span class="text-red-500">*</span></label>
+                        <input type="email" name="email" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:border-lcs-primary outline-none" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">主旨 <span class="text-red-500">*</span></label>
+                        <input type="text" name="subject" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:border-lcs-primary outline-none" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2">需求內容</label>
+                        <textarea name="content" rows="5" class="w-full border border-slate-200 rounded-lg p-3 text-sm resize-none focus:border-lcs-primary outline-none" placeholder="請簡述您的需求..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-lcs-primary text-white font-bold py-4 rounded-lg hover:bg-emerald-600 transition-all shadow-lg flex items-center justify-center gap-2">
+                        確認送出 <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+        async function submitForm(e) {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target).entries());
+            data.service = document.getElementById('form-service').value;
+            try { 
+                await fetch('/api/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }); 
+                alert('訊息已送出，我們將盡快聯繫您！'); 
+                e.target.reset(); 
+            } catch(e) { alert('發送失敗'); }
+        }
+    </script>
+    <div id="footer-placeholder"></div>
+</body>
+</html>
